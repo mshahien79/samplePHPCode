@@ -527,7 +527,7 @@ class barnjournalController extends Controller
                 ->where('BatchAllSold','0');
             })->get()->first();
             $meds = \App\Models\Medicines::where('med_name',$request->med_name1)->get()->first(); 
-            /** create NutritionJournalDetail record */
+            /** create MedicationJournalDetail record */
             $medjournal = array();
             $medjournal['barn_id'] = $request->barn_id;
             $medjournal['med_id'] = $meds->id;
@@ -538,7 +538,7 @@ class barnjournalController extends Controller
             $medjournal['created_at'] = \Carbon\Carbon::now();
             $medjournal = \App\Models\MedicinesJournalDetail::insert($medjournal);
 
-            /** Update Nut stock after Nut dipensed */
+            /** Update Med. stock after Med. dipensed */
             $medstock = \App\Models\MedicinesInventory::where('med_id',$meds->id)->get()->first(); 
             $medstock->med_quantity = (($medstock->med_quantity) - ($request->med_quantity_into_barn));
             $medstock->save();
@@ -563,7 +563,7 @@ class barnjournalController extends Controller
                 ->where('BatchAllSold','0');
             })->get()->first();
             $vacs = \App\Models\VaccinationsDetail::where('vac_name',$request->vac_name1)->get()->first(); 
-            /** create NutritionJournalDetail record */
+            /** create VaccinationJournalDetail record */
             $vacjournal = array();
             $vacjournal['barn_id'] = $request->barn_id;
             $vacjournal['vac_id'] = $vacs->id;
@@ -574,7 +574,7 @@ class barnjournalController extends Controller
             $vacjournal['created_at'] = \Carbon\Carbon::now();
             $vacjournal = \App\Models\VaccinesJournalDetail::insert($vacjournal);
 
-            /** Update Nut stock after Nut dipensed */
+            /** Update Vaccinations stock after Vaccinations dipensed */
             $vacstock = \App\Models\VaccinationsInventory::where('vac_id',$vacs->id)->get()->first(); 
             $vacstock->vac_quantity = (($vacstock->vac_quantity) - ($request->vac_quantity_into_barn));
             $vacstock->save();
